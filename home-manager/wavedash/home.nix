@@ -47,8 +47,7 @@ in
   programs.home-manager.enable = true;
 
   nixpkgs.overlays = [
-    (self:
-      super: {
+    (self: super: {
         discord = super.discord.overrideAttrs (
           _: { src = builtins.fetchTarball https://discord.com/api/download?platform=linux&format=tar.gz;
                withOpenASAR = true;
@@ -101,12 +100,9 @@ in
   gtk = {
     enable = true;
     theme = {
-      name = "Catppuccin-Mocha-Compact-Pink-dark";
-      package = pkgs.catppuccin-gtk.override {
-        accents = [ "pink" ];
-        size = "compact";
-        tweaks = [ "rimless" "black" ];
-        variant = "mocha";
+      name = "Orchis-Pink-Dark-Compact";
+      package = pkgs.orchis-theme.override {
+        tweaks = [ "macos" "black" "compact" ];
       };
     };
     iconTheme = {
@@ -119,15 +115,22 @@ in
       color-scheme = "prefer-dark";
     };
     "org/gnome/desktop/wm/preferences" = {
-      theme = "Catppuccin-Mocha";
+      theme = "Orchis-Pink-Dark-Compact";
       button-layout = "appmenu:minimize,maximize,close";
     };
     "org/gnome/shell" = {
       disable-user-extensions = false;
-      enabled-extensions = [ "user-theme@gnome-shell-extensions.gcampax.github.com" ];
+      enabled-extensions = [
+        "user-theme@gnome-shell-extensions.gcampax.github.com"
+        "dash-to-dock@micxgx.gmail.com"
+        "blur-my-shell@aunetx"
+        "caffeine@patapon.info"
+        "Vitals@CoreCoding.com"
+        "fullscreen-avoider@noobsai.github.com"
+      ];
     };
     "org/gnome/shell/extensions/user-theme" = {
-      name = "Catppuccin-Mocha";
+      name = "Orchis-Pink-Dark-Compact";
     };
   };
 
