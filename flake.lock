@@ -106,7 +106,20 @@
         "hardware": "hardware",
         "home-manager": "home-manager",
         "nix-colors": "nix-colors",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "ssh-keys": "ssh-keys"
+      }
+    },
+    "ssh-keys": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-LQ3DVwTyxaWUIPoFjYFOIhXr0cWfA95zJDg9s1WKRUU=",
+        "type": "file",
+        "url": "https://github.com/nyadiia.keys"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/nyadiia.keys"
       }
     }
   },

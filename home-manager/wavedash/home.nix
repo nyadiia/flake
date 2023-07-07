@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 
 with lib;
 with pkgs;
@@ -51,8 +51,9 @@ in
       super: {
         discord = super.discord.overrideAttrs (
           _: { src = builtins.fetchTarball https://discord.com/api/download?platform=linux&format=tar.gz;
-        }
-          _: { withOpenAsar = true; }
+               withOpenASAR = true;
+               withVencord = true;
+            }
         );
       }
     )

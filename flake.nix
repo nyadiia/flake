@@ -15,6 +15,11 @@
     # Shameless plug: looking for a way to nixify your themes and make
     # everything match nicely? Try nix-colors!
     nix-colors.url = "github:misterio77/nix-colors";
+
+    ssh-keys = {
+      url = "https://github.com/nyadiia.keys";
+      flake = false;
+    };
   };
 
   outputs = { nixpkgs, home-manager, ... }@inputs: {
@@ -28,7 +33,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.users.zackerthescar = import ./home-manager/wavedash/home.nix;
+            home-manager.users.nyadiia = import ./home-manager/wavedash/home.nix;
           }
         ];
       };

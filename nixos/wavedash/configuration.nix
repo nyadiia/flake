@@ -2,9 +2,11 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
 
-{
+let
+  inherit (inputs) ssh-keys;
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -62,11 +64,7 @@
   services.dbus.enable = true;
   services.dbus.packages = with pkgs; [ dconf ];
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
   # Fonts config
-
   fonts = {
       enableDefaultFonts = true;
       fonts = with pkgs;  [
@@ -113,23 +111,19 @@
   # sound.enable = true;
   hardware.pulseaudio.enable = false;
 
-  # Enable touchpad support (enabled default in most desktopManager).
-
+  # User info
   programs.fish.enable = true;
   users.users.nyadiia = {
       isNormalUser = true;
       extraGroups = [ "wheel" "networkmanager" "video" ];
       home = "/home/nyadiia";
       shell = pkgs.fish;
+      # !! please use home-manager instead !!
       packages = with pkgs; [
         # firefox
         # thunderbird
       ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH7rQ+JsT9CDMUgnNyOv6qyHb1YMURt+eyT3l9R7IzbJ"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIQ/o4YWuzG7q/p+/3RQ1JeMsa0Jp7bHjAeNpYgRTl6b"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHIhPVxuL0Fmv0GdW1QIvMy8kbCKuLD2z7Y2baa7ImdO"
-      ];
+      openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
    };
 
   # List packages installed in system profile. To search, run:
@@ -146,10 +140,11 @@
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+
 
   programs.dconf.enable = true;
 
