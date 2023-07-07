@@ -67,6 +67,14 @@ in
     firefox
     discord
     mpv
+
+    gnomeExtensions.user-themes
+    gnomeExtensions.vitals
+    gnomeExtensions.dash-to-dock
+    gnomeExtensions.sound-output-device-chooser
+    gnomeExtensions.fullscreen-avoider
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.caffeine
   ];
 
   # Git config
@@ -95,7 +103,7 @@ in
 
   home.sessionVariables = {
         NIXOS_OZONE_WL = "1";
-        GTK_THEME = "Nordic-darker";
+        GTK_THEME = "Orchis-Pink-Dark-Compact";
   }; 
   gtk = {
     enable = true;
@@ -127,6 +135,7 @@ in
         "caffeine@patapon.info"
         "Vitals@CoreCoding.com"
         "fullscreen-avoider@noobsai.github.com"
+        "sound-output-device-chooser@kgshank.net"
       ];
     };
     "org/gnome/shell/extensions/user-theme" = {
