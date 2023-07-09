@@ -22,18 +22,46 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, ... }@inputs: {
+  outputs = { nixpkgs, home-manager, nixos-hardware, ... }@inputs: {
     nixosConfigurations = {
       # my desktop :3
       wavedash = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; }; # Pass flake inputs to our config
-        modules = [ 
+        modules = [
           ./nixos/wavedash/configuration.nix
-          home-manager.nixosModules.home-manager {
+          home-manager.nixosModules.home-manager
+          {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.users.nyadiia = import ./home-manager/wavedash/home.nix;
+          }
+        ];
+      };
+      hyprdash = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+        modules = [
+          nixos-hardware.nixosModules.framework
+          ./nixos/hyprdash/configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.nyadiia = import ./home-manager/hyprdash/home.nix;
+          }
+        ];
+      };
+      crystal-heart = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+        modules = [
+          ./nixos/crystal-heart/configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.nyadiia = import ./home-manager/crystal-heart/home.nix;
           }
         ];
       };

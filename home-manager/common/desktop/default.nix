@@ -3,7 +3,7 @@
     ./discord.nix
     ./gnome.nix
     ./librewolf.nix
-    ./vscodium
+    ./vscodium.nix
     ./neovim.nix
   ];
 }

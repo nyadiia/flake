@@ -28,7 +28,7 @@ in
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.networkmanager.enable = true;
-  networking.hostName = "wavedash";
+  networking.hostName = "hyprdash";
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -69,12 +69,6 @@ in
   # User info
   programs.fish.enable = true;
 
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-  };
-
   users.users.nyadiia = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" ];
@@ -84,7 +78,6 @@ in
     packages = with pkgs; [
       signal-desktop
       any-nix-shell
-      steam
     ];
     openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
   };
@@ -107,30 +100,6 @@ in
     pulse.enable = true;
   };
 
-  # Make sure opengl is enabled
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
-
-  # Tell Xorg to use the nvidia driver
-  services.xserver.videoDrivers = ["nvidia"];
-
-  hardware.nvidia = {
-    # Modesetting is needed for most wayland compositors
-    modesetting.enable = true;
-
-    # Use the open source version of the kernel module
-    # Only available on driver 515.43.04+
-    open = true;
-
-    # Enable the nvidia settings menu
-    nvidiaSettings = true;
-
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
 
   # environment.gnome.excludePackages = (with pkgs; [ 
   # gnome-photos gnome-tour
