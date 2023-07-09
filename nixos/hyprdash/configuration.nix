@@ -72,6 +72,9 @@ in
     packages = with pkgs; [
       signal-desktop
       any-nix-shell
+      obsidian
+      element-desktop
+      spotify
     ];
     openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
   };

@@ -80,6 +80,9 @@ in
       signal-desktop
       any-nix-shell
       steam
+      obsidian
+      element-desktop
+      spotify
     ];
     openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
   };
