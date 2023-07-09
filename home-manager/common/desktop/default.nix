@@ -4,6 +4,5 @@
     ./gnome.nix
     ./librewolf.nix
     ./vscodium.nix
-    ./neovim.nix
   ];
 }

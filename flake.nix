@@ -3,10 +3,11 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager";
+    home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # TODO: Add any other flake you might need
@@ -23,6 +24,13 @@
   };
 
   outputs = { nixpkgs, home-manager, nixos-hardware, ... }@inputs: {
+    overlays = {
+      pkg-sets = (
+        final: prev: {
+          unstable = import inputs.unstable { system = final.system; };
+        }
+      );
+    };
     nixosConfigurations = {
       # my desktop :3
       wavedash = nixpkgs.lib.nixosSystem {
