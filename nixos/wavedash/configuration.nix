@@ -10,6 +10,7 @@ in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../common.nix
     ];
 
   nix = {
@@ -23,13 +24,8 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  # boot.initrd.availableKernelModules = [ "i915" ];
-  # boot.initrd.kernelModules = [ "i915" ];
 
-  # networking.hostName = "nixos"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true;  
   networking.hostName = "wavedash";
 
   # Set your time zone.
@@ -47,46 +43,6 @@ in {
   #   useXkbConfig = true; # use xkbOptions in tty.
   # };
 
-  # Allow nonfree software
-  nixpkgs.config.allowUnfree = true;
-
-  # Magic incantations for hardware video acceleration
-  # hardware.opengl = {
-  #     enable = true;
-  #     driSupport = true;
-  #     extraPackages = with pkgs; [
-  #       vaapiIntel
-  #       vaapiVdpau
-  #       libvdpau-va-gl
-  #     ];
-  # };
-
-  services.dbus.enable = true;
-  services.dbus.packages = with pkgs; [ dconf ];
-
-  # Fonts config
-  fonts = {
-      enableDefaultFonts = true;
-      fonts = with pkgs;  [
-        noto-fonts
-        noto-fonts-cjk
-        noto-fonts-emoji
-        fira-code
-        fira-code-symbols
-        mplus-outline-fonts.githubRelease
-        dina-font
-        proggyfonts
-        font-awesome
-        cascadia-code
-      ];
-      fontconfig = {
-        defaultFonts = {
-          serif = [ "Noto Serif" ];
-          sansSerif = [ "Noto Sans" ];
-          monospace = [ "Fira Code" ];
-        };
-      };
-  };
 
   # Configure keymap in X11
   services.xserver.layout = "us";
@@ -94,6 +50,45 @@ in {
   #   "eurosign:e";
   #   "caps:escape" # map caps to escape.
   # };
+
+  # sound.enable = true;
+  hardware.pulseaudio.enable = false;
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+
+  # User info
+  programs.fish.enable = true;
+  users.users.nyadiia = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" "video" ];
+    home = "/home/nyadiia";
+    shell = pkgs.fish;
+    # !! please use home-manager if you can !!
+    packages = with pkgs; [
+      signal-desktop
+      any-nix-shell
+    ];
+    openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
+  };
+
+  # Enable the OpenSSH daemon.
+  services.openssh.enable = true;
+
+
+
+  # GNOME
+  services.xserver.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -104,60 +99,6 @@ in {
       alsa.enable = true;
       pulse.enable = true;
   };
-
-  # Tailscale
-  services.tailscale.enable = true;
-
-  # sound.enable = true;
-  hardware.pulseaudio.enable = false;
-
-  # User info
-  programs.fish.enable = true;
-  users.users.nyadiia = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" "video" ];
-      home = "/home/nyadiia";
-      shell = pkgs.fish;
-      # !! please use home-manager instead !!
-      packages = with pkgs; [
-        # firefox
-        # thunderbird
-      ];
-      openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
-   };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    curl
-    nano
-    gnome.gnome-tweaks
-    gnomeExtensions.user-themes
-  ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
-
-
-  programs.dconf.enable = true;
-
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
-  # GNOME
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
 
   # environment.gnome.excludePackages = (with pkgs; [ 
 	# gnome-photos gnome-tour

@@ -3,7 +3,7 @@
 with lib;
 with pkgs;
 let
-  browser = [ "firefox.desktop" ];
+  browser = [ "librewolf.desktop" ];
   associations = {
     "text/html" = browser;
     "x-scheme-handler/http" = browser;
@@ -19,15 +19,14 @@ let
     "application/x-extension-xhtml" = browser;
     "application/x-extension-xht" = browser;
 
-    "audio/*" = [ "vlc.desktop" ];
-    "video/*" = [ "vlc.dekstop" ];
-    #"image/*" = [ "ahoviewer.desktop" ];
-    #"text/calendar" = [ "thunderbird.desktop" ]; # ".ics"  iCalendar format
     "application/json" = browser; # ".json"  JSON format
     "application/pdf" = browser; # ".pdf"  Adobe Portable Document Format (PDF)
   };
 in
 {
+  imports = [
+    ../common
+  ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "nyadiia";
@@ -46,102 +45,11 @@ in
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  nixpkgs.overlays = [
-    (self: super: {
-        discord = super.discord.overrideAttrs (
-          _: { src = builtins.fetchTarball https://discord.com/api/download?platform=linux&format=tar.gz;
-               withOpenASAR = true;
-               withVencord = true;
-            }
-        );
-      }
-    )
-  ];
-
-   home.packages = with pkgs; [
-    # commands
+  home.packages = with pkgs; [
     lolcat
     neofetch
     bottom
-    papirus-icon-theme
-    firefox
-    discord
     mpv
-
-    gnomeExtensions.user-themes
-    gnomeExtensions.vitals
-    gnomeExtensions.dash-to-dock
-    gnomeExtensions.sound-output-device-chooser
-    gnomeExtensions.fullscreen-avoider
-    gnomeExtensions.blur-my-shell
-    gnomeExtensions.caffeine
   ];
-
-  # Git config
-  programs.git = {
-    enable = true;
-    package = pkgs.gitAndTools.gitFull;
-    userName = "Nadia Potteiger";
-    userEmail = "nyadiia@pm.me";
-    extraConfig = {
-      core.editor = "nvim";
-      credential.helper = "cache";
-      init.defaultBranch = "main";
-    };
-  };
-
-  #fzf
-  programs.fzf = {
-    enable = true;
-    enableFishIntegration = true;
-  };
-
-  # vscode config
-  programs.vscode = {
-    enable = true;
-  };
-
-  home.sessionVariables = {
-        NIXOS_OZONE_WL = "1";
-        GTK_THEME = "Orchis-Pink-Dark-Compact";
-  }; 
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Orchis-Pink-Dark-Compact";
-      package = pkgs.orchis-theme.override {
-        tweaks = [ "macos" "black" "compact" ];
-      };
-    };
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
-    };
-  };
-  dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-    };
-    "org/gnome/desktop/wm/preferences" = {
-      theme = "Orchis-Pink-Dark-Compact";
-      button-layout = "appmenu:minimize,maximize,close";
-    };
-    "org/gnome/shell" = {
-      disable-user-extensions = false;
-      enabled-extensions = [
-        "user-theme@gnome-shell-extensions.gcampax.github.com"
-        "dash-to-dock@micxgx.gmail.com"
-        "blur-my-shell@aunetx"
-        "caffeine@patapon.info"
-        "Vitals@CoreCoding.com"
-        "fullscreen-avoider@noobsai.github.com"
-        "sound-output-device-chooser@kgshank.net"
-      ];
-    };
-    "org/gnome/shell/extensions/user-theme" = {
-      name = "Orchis-Pink-Dark-Compact";
-    };
-  };
-
 }
 
