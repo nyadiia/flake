@@ -78,11 +78,6 @@ in
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  # GNOME
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -92,6 +87,29 @@ in
     alsa.enable = true;
     pulse.enable = true;
   };
+
+  environment.systemPackages = with pkgs; [
+    docker
+    docker-compose
+    # nginx
+  ];
+
+  # services.nginx = {
+  #   enable = true;
+  #   package = pkgs.nginxStable.override { openssl = pkgs.libressl; };
+  #   virtualHosts."mikufan.page" = {
+  #     enableACME = true;
+  #     forceSSL = true;
+  #     root = "/var/www/mikufan.page";
+  #   };
+  # };
+
+  # Optional: You can configure the email address used with Let's Encrypt.
+  # This way you get renewal reminders (automated by NixOS) as well as expiration emails.
+  security.acme.certs = {
+    "mikufan.page".email = "youremail@address.com";
+  };
+
 
   # environment.gnome.excludePackages = (with pkgs; [ 
   # gnome-photos gnome-tour
@@ -127,6 +145,4 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
 }
-

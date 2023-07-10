@@ -96,9 +96,13 @@ in
 
   # GNOME
   services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-
+  services.xserver.displayManager.gdm = {
+    enable = true;
+    defaultSession = "gnome-xorg";
+  };
+  security.pam.services.gdm.enableGnomeKeyring = true;
+  
   # Enable CUPS to print documents.
   services.printing.enable = true;
 

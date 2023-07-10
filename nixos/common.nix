@@ -41,6 +41,8 @@
     wget
     curl
     tailscale
+    git
+    delta
   ];
 
   # remember to login to tailscale!! sorry this isn't declaritive but i'm not putting api keys on github :)
