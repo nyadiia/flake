@@ -42,8 +42,8 @@
         style_root = "#c061cb";
       };
       character = {
-        success_symbol = "❯(#FF0066)";
-        error_symbol = "✗(#ff4879)";
+        success_symbol = "[❯](#FF0066)";
+        error_symbol = "[✗](#ff4879)";
       };
       nix_shell = {
         disabled = false;

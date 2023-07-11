@@ -10,12 +10,15 @@
     userEmail = "nyadiia@pm.me";
     extraConfig = {
       core.editor = "nvim";
-      credential.helper = "cache";
       init.defaultBranch = "main";
     };
-    signing ={
+    signing = {
       signByDefault = true;
       signingkey = "C8DC17070AC33338193F9723229718FDC160E880";
     };
+  };
+
+  home.sessionVariables = {
+    SSH_ASKPASS = "${pkgs.gnome.seahorse}/libexec/seahorse/ssh-askpass";
   };
 }
