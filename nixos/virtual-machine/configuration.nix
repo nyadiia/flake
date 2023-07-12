@@ -13,6 +13,7 @@ in
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../common.nix
+      ../vm-guest.nix
     ];
 
   
@@ -59,14 +60,6 @@ in
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-    homedir = "${config.xdg.configHome}/gnupg";
-        
-    settings = {
-      auto-key-locate = "local,wkd,dane,cert";
-      require-secmem = true;
-      default-key = "";
-      default-recipient-self = true;
-    };
   };
 
   # User info
@@ -106,10 +99,7 @@ in
   # GNOME
   services.xserver.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.displayManager.gdm = {
-    enable = true;
-    defaultSession = "gnome-xorg";
-  };
+  services.xserver.displayManager.gdm.enable = true;
   security.pam.services.gdm.enableGnomeKeyring = true;
   
   # Enable CUPS to print documents.
@@ -120,13 +110,6 @@ in
     enable = true;
     alsa.enable = true;
     pulse.enable = true;
-  };
-
-  # Make sure opengl is enabled
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
   };
 
   # environment.gnome.excludePackages = (with pkgs; [ 

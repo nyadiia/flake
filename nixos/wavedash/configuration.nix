@@ -60,14 +60,6 @@ in
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-    # homedir = "/home/nyadiia/gnupg";
-        
-    # settings = {
-    #   auto-key-locate = "local,wkd,dane,cert";
-    #   require-secmem = true;
-    #   default-key = "";
-    #   default-recipient-self = true;
-    # };
   };
 
   # User info
