@@ -72,6 +72,7 @@ in {
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.tailscale.enable = true;
 
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
