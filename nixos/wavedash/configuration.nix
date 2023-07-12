@@ -13,6 +13,7 @@ in
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../common.nix
+      ../nvidia.nix
     ];
 
   
@@ -59,14 +60,14 @@ in
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-    homedir = "${config.xdg.configHome}/gnupg";
+    # homedir = "/home/nyadiia/gnupg";
         
-    settings = {
-      auto-key-locate = "local,wkd,dane,cert";
-      require-secmem = true;
-      default-key = "";
-      default-recipient-self = true;
-    };
+    # settings = {
+    #   auto-key-locate = "local,wkd,dane,cert";
+    #   require-secmem = true;
+    #   default-key = "";
+    #   default-recipient-self = true;
+    # };
   };
 
   # User info
@@ -106,10 +107,8 @@ in
   # GNOME
   services.xserver.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.displayManager.gdm = {
-    enable = true;
-    defaultSession = "gnome-xorg";
-  };
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.defaultSession = "gnome-xorg";
   security.pam.services.gdm.enableGnomeKeyring = true;
   
   # Enable CUPS to print documents.
@@ -120,31 +119,6 @@ in
     enable = true;
     alsa.enable = true;
     pulse.enable = true;
-  };
-
-  # Make sure opengl is enabled
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
-
-  # Tell Xorg to use the nvidia driver
-  services.xserver.videoDrivers = ["nvidia"];
-
-  hardware.nvidia = {
-    # Modesetting is needed for most wayland compositors
-    modesetting.enable = true;
-
-    # Use the open source version of the kernel module
-    # Only available on driver 515.43.04+
-    open = true;
-
-    # Enable the nvidia settings menu
-    nvidiaSettings = true;
-
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
   # environment.gnome.excludePackages = (with pkgs; [ 

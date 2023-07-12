@@ -4,14 +4,18 @@
 
 { inputs, config, pkgs, ... }:
 
-let inherit (inputs) ssh-keys;
-in {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-    ../common.nix
-  ];
+let
+  inherit (inputs) ssh-keys;
+in
+{
+  imports =
+    [
+      # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+      ../common.nix
+    ];
 
+  
   nixpkgs.hostPlatform.system = "x86_64-linux";
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -19,7 +23,7 @@ in {
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.networkmanager.enable = true;
-  networking.hostName = "crystal-heart";
+  networking.hostName = "virtual-machine";
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -55,24 +59,59 @@ in {
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
+    homedir = "${config.xdg.configHome}/gnupg";
+        
+    settings = {
+      auto-key-locate = "local,wkd,dane,cert";
+      require-secmem = true;
+      default-key = "";
+      default-recipient-self = true;
+    };
   };
 
   # User info
   programs.fish.enable = true;
 
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+  };
+
   users.users.nyadiia = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "libvirtd" ];
     home = "/home/nyadiia";
     shell = pkgs.fish;
     # !! please use home-manager if you can !!
-    packages = with pkgs; [ any-nix-shell ];
+    packages = with pkgs; [
+      signal-desktop
+      any-nix-shell
+      steam
+      obsidian
+      element-desktop
+      spotify
+      pinentry
+    ];
     openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
   };
+
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+  environment.systemPackages = with pkgs; [ virt-manager ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
+  # GNOME
+  services.xserver.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.gdm = {
+    enable = true;
+    defaultSession = "gnome-xorg";
+  };
+  security.pam.services.gdm.enableGnomeKeyring = true;
+  
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -83,32 +122,11 @@ in {
     pulse.enable = true;
   };
 
-  environment.systemPackages = with pkgs; [
-    docker
-    docker-compose
-    # nginx
-  ];
-
-  # services.nginx = {
-  #   enable = true;
-  #   package = pkgs.nginxStable.override { openssl = pkgs.libressl; };
-  #   virtualHosts."mikufan.page" = {
-  #     enableACME = true;
-  #     forceSSL = true;
-  #     root = "/var/www/mikufan.page";
-  #   };
-  # };
-
-  # Optional: You can configure the email address used with Let's Encrypt.
-  # This way you get renewal reminders (automated by NixOS) as well as expiration emails.
-  security.acme = {
-    certs = { 
-      "mikufan.page" = { 
-        email = "nyadiia@pm.me";
-        dnsProvider = "googledomains";
-      }; 
-    };
-    acceptTerms = true;
+  # Make sure opengl is enabled
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
   };
 
   # environment.gnome.excludePackages = (with pkgs; [ 
@@ -145,4 +163,6 @@ in {
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
+
 }
+
