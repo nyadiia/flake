@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 
 {
   programs.lsd = {
@@ -30,12 +30,6 @@
     settings = {
       add_newline = true;
       package.disabled = false;
-      shell = {
-        disabled = false;
-        fish_indicator = "";
-        bash_indicator = "[BASH](bright-white) ";
-        zsh_indicator = "[ZSH](bright-white) ";
-      };
       username = {
         show_always = true;
         style_user = "#FF0066";

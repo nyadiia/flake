@@ -74,16 +74,26 @@ in
       signal-desktop
       any-nix-shell
       obsidian
-      element-desktop
+      cinny-desktop
       spotify
+      nixfmt
     ];
     openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
   };
-
+  nixpkgs.config.permittedInsecurePackages = [
+    "openssl-1.1.1u"
+  ];
   # GNOME
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.desktopManager.gnome = {
+    enable = true;
+    extraGSettingsOverridePackages = [ pkgs.gnome.mutter ];
+    extraGSettingsOverrides = ''
+     [org.gnome.mutter]
+     experimental-features=['scale-monitor-framebuffer']
+   '';
+  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

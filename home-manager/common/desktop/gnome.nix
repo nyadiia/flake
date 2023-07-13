@@ -53,20 +53,17 @@
         "caffeine@patapon.info"
         "Vitals@CoreCoding.com"
         "fullscreen-avoider@noobsai.github.com"
-        "openweather-extension@henslody.de"
+        "openweather-extension@jenslody.de"
       ];
       favorite-apps = [
         "librewolf.desktop"
-        "org.gnome.Terminal.desktop"
+        "org.gnome.Console.desktop"
         "org.gnome.Calendar.desktop"
         "org.gnome.Nautilus.desktop"
-        "org.gnome.Software.desktop"
         "codium.desktop"
-        "md.obsidian.Obsidian.desktop"
-        "org.signal.Signal.desktop"
-        "com.discordapp.Discord.desktop"
-        "im.riot.Riot.desktop"
-        "com.spotify.Client.desktop"
+        "obsidian.desktop"
+        "signal-desktop.desktop"
+        "discord.desktop"
       ];
     };
     "org/gnome/shell/extensions/user-theme" = {
@@ -95,6 +92,9 @@
     "org/gnome/desktop/peripherals/touchpad" = {
       tap-to-click = true;
       two-finger-scrolling-enabled = true;
+    };
+    "org/gnome/mutter" = {
+      experimental-features = [ "scale-monitor-framebuffer" ];
     };
   };
 }
