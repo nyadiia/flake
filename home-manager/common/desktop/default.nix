@@ -4,5 +4,6 @@
     ./gnome.nix
     ./librewolf.nix
     ./vscodium.nix
+    ./git.nix
   ];
 }

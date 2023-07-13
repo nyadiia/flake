@@ -1,8 +1,7 @@
 {
   imports = [
-    ./git.nix
     ./shell.nix
-    ./zellij.nix
+    # ./zellij.nix
     ./neovim.nix
   ];
 }

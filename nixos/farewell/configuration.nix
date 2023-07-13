@@ -10,6 +10,7 @@ in {
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../common.nix
+    ../ssh.nix
   ];
 
   nixpkgs.hostPlatform.system = "x86_64-linux";
@@ -70,8 +71,6 @@ in {
     openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
   };
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
   services.tailscale.enable = true;
 
   virtualisation.libvirtd.enable = true;

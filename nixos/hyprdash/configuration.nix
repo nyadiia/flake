@@ -13,6 +13,7 @@ in
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../common.nix
+      ../ssh.nix
     ];
 
   nixpkgs.hostPlatform.system = "x86_64-linux";
@@ -78,9 +79,6 @@ in
     ];
     openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
   };
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
 
   # GNOME
   services.xserver.enable = true;

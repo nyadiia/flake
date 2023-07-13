@@ -10,6 +10,7 @@ in {
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../common.nix
+    ../ssh.nix
   ];
 
   nixpkgs.hostPlatform.system = "x86_64-linux";
@@ -52,10 +53,6 @@ in {
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
 
   # User info
   programs.fish.enable = true;
@@ -68,19 +65,6 @@ in {
     # !! please use home-manager if you can !!
     packages = with pkgs; [ any-nix-shell ];
     openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
-  };
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound.
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
@@ -99,14 +83,17 @@ in {
   #   };
   # };
 
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+
   # Optional: You can configure the email address used with Let's Encrypt.
   # This way you get renewal reminders (automated by NixOS) as well as expiration emails.
   security.acme = {
-    certs = { 
-      "mikufan.page" = { 
+    certs = {
+      "mikufan.page" = {
         email = "nyadiia@pm.me";
         dnsProvider = "googledomains";
-      }; 
+      };
     };
     acceptTerms = true;
   };

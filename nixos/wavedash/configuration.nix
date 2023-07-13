@@ -13,7 +13,7 @@ in
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../common.nix
-      ../nvidia.nix
+      ../ssh.nix
     ];
 
   
@@ -92,9 +92,6 @@ in
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
   environment.systemPackages = with pkgs; [ virt-manager ];
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
 
   # GNOME
   services.xserver.enable = true;

@@ -15,7 +15,7 @@
 
     # Shameless plug: looking for a way to nixify your themes and make
     # everything match nicely? Try nix-colors!
-    nix-colors.url = "github:misterio77/nix-colors";
+    # nix-colors.url = "github:misterio77/nix-colors";
 
     ssh-keys = {
       url = "https://github.com/nyadiia.keys";
@@ -37,6 +37,10 @@
         specialArgs = { inherit inputs; }; # Pass flake inputs to our config
         modules = [
           ./nixos/wavedash/configuration.nix
+          nixos-hardware.nixosModules.common-pc
+          nixos-hardware.nixosModules.common-pc-ssd
+          nixos-hardware.nixosModules.common-pc-hdd
+          nixos-hardware.nixosModules.common-cpu-amd
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -49,8 +53,8 @@
       hyprdash = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; }; # Pass flake inputs to our config
         modules = [
-          nixos-hardware.nixosModules.framework
           ./nixos/hyprdash/configuration.nix
+          nixos-hardware.nixosModules.framework
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -90,6 +94,9 @@
         specialArgs = { inherit inputs; }; # Pass flake inputs to our config
         modules = [
           ./nixos/farewell/configuration.nix
+          nixos-hardware.nixosModules.common-pc
+          nixos-hardware.nixosModules.common-pc-ssd
+          nixos-hardware.nixosModules.common-cpu-intel
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

@@ -89,9 +89,7 @@ in
     openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
   };
 
-  virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
-  environment.systemPackages = with pkgs; [ virt-manager ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
