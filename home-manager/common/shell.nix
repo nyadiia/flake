@@ -13,7 +13,7 @@
     shellAliases = {
       s = "ssh";
       cl = "clear";
-      cd = "zoxide";
+      cd = "z";
     };
     interactiveShellInit = ''
       any-nix-shell fish --info-right | source
