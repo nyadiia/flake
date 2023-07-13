@@ -13,17 +13,15 @@
     # TODO: Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
 
-    # Shameless plug: looking for a way to nixify your themes and make
-    # everything match nicely? Try nix-colors!
-    # nix-colors.url = "github:misterio77/nix-colors";
-
     ssh-keys = {
       url = "https://github.com/nyadiia.keys";
       flake = false;
     };
+
+    spicetify-nix.url = github:the-argus/spicetify-nix;
   };
 
-  outputs = { nixpkgs, home-manager, nixos-hardware, ... }@inputs: {
+  outputs = { nixpkgs, home-manager, nixos-hardware, spicetify-nix, ... }@inputs: {
     overlays = {
       pkg-sets = (
         final: prev: {

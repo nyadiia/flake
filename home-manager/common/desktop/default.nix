@@ -5,5 +5,6 @@
     ./librewolf.nix
     ./vscodium.nix
     ./git.nix
+    # ./spotify.nix
   ];
 }
