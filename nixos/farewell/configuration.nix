@@ -19,15 +19,10 @@ in {
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.networkmanager.enable = true;
   networking.hostName = "farewell";
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -66,8 +61,6 @@ in {
     packages = with pkgs; [ any-nix-shell ];
     openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
   };
-
-  services.tailscale.enable = true;
 
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;

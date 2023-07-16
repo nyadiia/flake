@@ -13,15 +13,16 @@
     # TODO: Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
 
+    # this will be updated to https://nyadiia.dev/keys once i get to making that website real
     ssh-keys = {
       url = "https://github.com/nyadiia.keys";
       flake = false;
     };
 
-    spicetify-nix.url = github:the-argus/spicetify-nix;
+    # spicetify-nix.url = github:the-argus/spicetify-nix;
   };
 
-  outputs = { nixpkgs, home-manager, nixos-hardware, spicetify-nix, ... }@inputs: {
+  outputs = { nixpkgs, home-manager, nixos-hardware, ... }@inputs: {
     overlays = {
       pkg-sets = (
         final: prev: {
@@ -35,6 +36,7 @@
         specialArgs = { inherit inputs; }; # Pass flake inputs to our config
         modules = [
           ./nixos/wavedash/configuration.nix
+          # nixos hardware for this specific system, most likely not needed but redundancy is everything
           nixos-hardware.nixosModules.common-pc
           nixos-hardware.nixosModules.common-pc-ssd
           nixos-hardware.nixosModules.common-pc-hdd
@@ -63,7 +65,7 @@
         ];
       };
       crystal-heart = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+        specialArgs = { inherit inputs; };
         modules = [
           ./nixos/crystal-heart/configuration.nix
           home-manager.nixosModules.home-manager
@@ -75,8 +77,9 @@
           }
         ];
       };
+      # this will most likely be a temporary config as i get my configs working
       virtual-machine = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+        specialArgs = { inherit inputs; };
         modules = [
           ./nixos/virtual-machine/configuration.nix
           home-manager.nixosModules.home-manager
@@ -89,7 +92,7 @@
         ];
       };
       farewell = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+        specialArgs = { inherit inputs; };
         modules = [
           ./nixos/farewell/configuration.nix
           nixos-hardware.nixosModules.common-pc

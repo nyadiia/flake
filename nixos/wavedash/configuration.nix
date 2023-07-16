@@ -16,7 +16,7 @@ in
       ../ssh.nix
     ];
 
-  
+
   nixpkgs.hostPlatform.system = "x86_64-linux";
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -29,10 +29,6 @@ in
   # Set your time zone.
   time.timeZone = "America/Chicago";
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   # console = {
@@ -43,21 +39,9 @@ in
 
   # Configure keymap in X11
   services.xserver.layout = "us";
-  # services.xserver.xkbOptions = {
-  #   "eurosign:e";
-  #   "caps:escape" # map caps to escape.
-  # };
 
   # sound.enable = true;
   hardware.pulseaudio.enable = false;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  programs.gnupg.agent.enable = true;
 
   # User info
   programs.fish.enable = true;
@@ -90,14 +74,18 @@ in
   programs.dconf.enable = true;
   environment.systemPackages = with pkgs; [ virt-manager ];
 
+  # Enable GPG
+  programs.gnupg.agent.enable = true;
+
   # GNOME
   services.xserver.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
   services.xserver.displayManager.gdm.enable = true;
+
   ## run x by default
   services.xserver.displayManager.defaultSession = "gnome-xorg";
   security.pam.services.gdm.enableGnomeKeyring = true;
-  
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
