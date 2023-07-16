@@ -43,6 +43,10 @@
         hostname = "160.94.179.150";
         user = "root";
       };
+      "willow" = {
+        hostname = "160.94.179.155";
+        user = "acm";
+      };
 
       ## acm vms
       "acm.umn.edu" = {
