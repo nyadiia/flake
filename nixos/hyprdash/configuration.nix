@@ -61,9 +61,22 @@ in
   # User info
   programs.fish.enable = true;
 
+  nixpkgs.overlays =
+    let
+      vencord = self: super: {
+        discord = super.discord.override { withOpenASAR = true; withVencord = true; };
+      };
+    in
+    [ vencord ];
+
+  # environment.sessionVariables = {
+  #   NIXOS_OZONE_WL = "1"; # Most Electron Applications
+  #   USE_WAYLAND = "1"; # ArmCord
+  # };
+
   users.users.nyadiia = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "libvirtd" ];
     home = "/home/nyadiia";
     shell = pkgs.fish;
     # !! please use home-manager if you can !!
@@ -73,7 +86,9 @@ in
       obsidian
       cinny-desktop
       spotify
-      nixfmt
+      nixpkgs-fmt
+      discord
+      tigervnc
     ];
     openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
   };
@@ -88,9 +103,9 @@ in
     ## enable fractional scaling on wayland
     extraGSettingsOverridePackages = [ pkgs.gnome.mutter ];
     extraGSettingsOverrides = ''
-     [org.gnome.mutter]
-     experimental-features=['scale-monitor-framebuffer']
-   '';
+      [org.gnome.mutter]
+      experimental-features=['scale-monitor-framebuffer']
+    '';
   };
 
   # Enable CUPS to print documents.
@@ -103,6 +118,20 @@ in
     pulse.enable = true;
   };
 
+  # Enable fingerprint
+  services.fprintd = {
+    enable = true;
+    # tod.enable = true;
+    # tod.driver = pkgs.libfprint-2-tod1-goodix;
+  };
+
+  # Enable Framework firmware updates
+  services.fwupd.enable = true;
+
+  # Enable virtualization
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+  environment.systemPackages = with pkgs; [ virt-manager ];
 
   # environment.gnome.excludePackages = (with pkgs; [ 
   # gnome-photos gnome-tour

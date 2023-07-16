@@ -16,7 +16,7 @@
   ];
 
   home.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
+    # NIXOS_OZONE_WL = "1";
   };
 
   gtk = {
@@ -85,8 +85,8 @@
       unmaximize = "disabled";
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
-      name = "terminal super";
-      command = "gnome-terminal";
+      name = "terminal";
+      command = "kgx";
       binding = "<Super>Return";
     };
     "org/gnome/desktop/peripherals/touchpad" = {
@@ -95,6 +95,12 @@
     };
     "org/gnome/mutter" = {
       experimental-features = [ "scale-monitor-framebuffer" ];
+    };
+    "org/gnome/desktop/background" = {
+      picture-uri-dark = "https://cdn.discordapp.com/attachments/1093259252828737667/1119072489813852262/clean_up_your_room.jpg";
+    };
+    "org/gnome/desktop/interface" = {
+      show-battery-percentage = true;
     };
   };
 }

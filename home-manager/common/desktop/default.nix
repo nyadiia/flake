@@ -1,6 +1,6 @@
 {
   imports = [
-    ./discord.nix
+    # ./discord.nix
     ./gnome.nix
     ./librewolf.nix
     ./vscodium.nix
