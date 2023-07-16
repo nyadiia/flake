@@ -73,42 +73,74 @@ in {
     nginx
   ];
 
-  services.nginx.virtualHosts."mikufan.page" = {
-    addSSL = true;
-    enableACME = true;
-    root = "/var/www/mikufan.page";
+  services.nginx = {
+    enable = true;
+
+    # Use recommended settings
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+
+    commonHttpConfig = ''
+      # Add HSTS header with preloading to HTTPS requests.
+      # Adding this header to HTTP requests is discouraged
+      map $scheme $hsts_header {
+          https   "max-age=31536000; includeSubdomains; preload";
+      }
+      add_header Strict-Transport-Security $hsts_header;
+
+      # Enable CSP for your services.
+      #add_header Content-Security-Policy "script-src 'self'; object-src 'none'; base-uri 'none';" always;
+
+      # Minimize information leaked to other domains
+      add_header 'Referrer-Policy' 'origin-when-cross-origin';
+
+      # Disable embedding as a frame
+      add_header X-Frame-Options DENY;
+
+      # Prevent injection of code in other mime types (XSS Attacks)
+      add_header X-Content-Type-Options nosniff;
+
+      # Enable XSS protection of the browser.
+      # May be unnecessary when CSP is configured properly (see above)
+      add_header X-XSS-Protection "1; mode=block";
+
+      # This might create errors
+      proxy_cookie_path / "/; secure; HttpOnly; SameSite=strict";
+    '';
+
+    # Add any further config to match your needs, e.g.:
+    virtualHosts =
+      let
+        base = locations: {
+          inherit locations;
+
+          forceSSL = true;
+          enableACME = true;
+        };
+        proxy = port: base {
+          "/".proxyPass = "http://127.0.0.1:" + toString (port) + "/";
+        };
+      in
+      {
+        "mikufan.page" = { default = true; };
+      };
   };
   security.acme = {
     acceptTerms = true;
-    email = "nyadiia@pm.me";
+    defaults.email = "nyadiia@pm.me";
   };
 
-  # environment.gnome.excludePackages = (with pkgs; [ 
-  # gnome-photos gnome-tour
-  #   ]) ++ (with pkgs.gnome; [
-  # gnome-music
-  # gedit
-  # epiphany
-  # geary
-  # evince
-  # gnome-characters
-  # totem
-  # tali
-  # iagno
-  # hitori
-  # atomix
-  #   ]);
+  networking.firewall = {
+    enable = true;
+    # always allow traffic from your Tailscale network
+    trustedInterfaces = [ "tailscale0" ];
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
+    # Open ports in the firewall.
+    allowedTCPPorts = [ 443 80 22 ];
+    allowedUDPPorts = [ 443 80 config.services.tailscale.port ];
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
