@@ -6,7 +6,7 @@
     matchBlocks = {
       # my tailnet
       "wavedash" = {
-        hostname = "100.95.172.31";
+        hostname = "100.68.165.85";
         user = "nyadiia";
       };
       "reverse-wavedash" = {
