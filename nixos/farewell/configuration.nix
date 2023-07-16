@@ -59,7 +59,7 @@ in {
 
   users.users.nyadiia = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "libvirtd" "docker" ];
+    extraGroups = [ "wheel" "libvirtd" "docker" ];
     home = "/home/nyadiia";
     shell = pkgs.fish;
     # !! please use home-manager if you can !!
@@ -77,32 +77,15 @@ in {
     docker-compose
   ];
 
-  # environment.gnome.excludePackages = (with pkgs; [ 
-  # gnome-photos gnome-tour
-  #   ]) ++ (with pkgs.gnome; [
-  # gnome-music
-  # gedit
-  # epiphany
-  # geary
-  # evince
-  # gnome-characters
-  # totem
-  # tali
-  # iagno
-  # hitori
-  # atomix
-  #   ]);
+  networking.firewall = {
+    enable = true;
+    # always allow traffic from your Tailscale network
+    trustedInterfaces = [ "tailscale0" ];
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
+    # Open ports in the firewall.
+    allowedTCPPorts = [ 443 80 22 ];
+    allowedUDPPorts = [ 443 80 config.services.tailscale.port ];
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

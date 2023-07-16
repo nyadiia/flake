@@ -59,7 +59,7 @@ in {
 
   users.users.nyadiia = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" ];
+    extraGroups = [ "wheel" ];
     home = "/home/nyadiia";
     shell = pkgs.fish;
     # !! please use home-manager if you can !!
@@ -70,32 +70,17 @@ in {
   environment.systemPackages = with pkgs; [
     docker
     docker-compose
-    # nginx
+    nginx
   ];
 
-  # services.nginx = {
-  #   enable = true;
-  #   package = pkgs.nginxStable.override { openssl = pkgs.libressl; };
-  #   virtualHosts."mikufan.page" = {
-  #     enableACME = true;
-  #     forceSSL = true;
-  #     root = "/var/www/mikufan.page";
-  #   };
-  # };
-
-  virtualisation.libvirtd.enable = true;
-  programs.dconf.enable = true;
-
-  # Optional: You can configure the email address used with Let's Encrypt.
-  # This way you get renewal reminders (automated by NixOS) as well as expiration emails.
+  services.nginx.virtualHosts."mikufan.page" = {
+    addSSL = true;
+    enableACME = true;
+    root = "/var/www/mikufan.page";
+  };
   security.acme = {
-    certs = {
-      "mikufan.page" = {
-        email = "nyadiia@pm.me";
-        dnsProvider = "googledomains";
-      };
-    };
     acceptTerms = true;
+    email = "nyadiia@pm.me";
   };
 
   # environment.gnome.excludePackages = (with pkgs; [ 

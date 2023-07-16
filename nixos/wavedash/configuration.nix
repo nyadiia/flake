@@ -57,10 +57,7 @@ in
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
+  programs.gnupg.agent.enable = true;
 
   # User info
   programs.fish.enable = true;
@@ -97,6 +94,7 @@ in
   services.xserver.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
   services.xserver.displayManager.gdm.enable = true;
+  ## run x by default
   services.xserver.displayManager.defaultSession = "gnome-xorg";
   security.pam.services.gdm.enableGnomeKeyring = true;
   

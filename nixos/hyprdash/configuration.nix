@@ -56,10 +56,7 @@ in
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-#    enableSSHSupport = true;
-  };
+  programs.gnupg.agent.enable = true;
 
   # User info
   programs.fish.enable = true;
@@ -88,6 +85,7 @@ in
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome = {
     enable = true;
+    ## enable fractional scaling on wayland
     extraGSettingsOverridePackages = [ pkgs.gnome.mutter ];
     extraGSettingsOverrides = ''
      [org.gnome.mutter]
