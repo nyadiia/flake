@@ -9,7 +9,7 @@ in {
     settings = {
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
-      PermitRootLogin = "prohibt-password";
+      PermitRootLogin = "prohibit-password";
     };
   };
 }
