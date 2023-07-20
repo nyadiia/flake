@@ -6,7 +6,6 @@
     papirus-icon-theme
 
     gnomeExtensions.user-themes
-    gnomeExtensions.vitals
     gnomeExtensions.dash-to-dock
     gnomeExtensions.fullscreen-avoider
     gnomeExtensions.blur-my-shell
@@ -51,7 +50,6 @@
         "dash-to-dock@micxgx.gmail.com"
         "blur-my-shell@aunetx"
         "caffeine@patapon.info"
-        "Vitals@CoreCoding.com"
         "fullscreen-avoider@noobsai.github.com"
         "openweather-extension@jenslody.de"
       ];
