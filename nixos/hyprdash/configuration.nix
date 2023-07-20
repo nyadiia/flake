@@ -89,6 +89,7 @@ in
       nixpkgs-fmt
       discord
       tigervnc
+      prismlauncher
     ];
     openssh.authorizedKeys.keyFiles = [ ssh-keys.outPath ];
   };

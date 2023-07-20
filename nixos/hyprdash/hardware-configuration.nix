@@ -8,34 +8,24 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  # Setup keyfile
-  boot.initrd.secrets = {
-    "/crypto_keyfile.bin" = null;
-  };
-
-  # Enable swap on luks
-  boot.initrd.luks.devices."luks-043fca33-90e9-4893-a4c4-39c572db102a".device = "/dev/disk/by-uuid/043fca33-90e9-4893-a4c4-39c572db102a";
-  boot.initrd.luks.devices."luks-043fca33-90e9-4893-a4c4-39c572db102a".keyFile = "/crypto_keyfile.bin";
-
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/66c747ea-bd57-456e-8108-c5d2719f65cf";
-      fsType = "ext4";
+    { device = "/dev/disk/by-uuid/bebbd53b-1ea8-49db-acb1-8d6dc196517f";
+      fsType = "btrfs";
+      options = [ "subvol=@" ];
     };
 
-  boot.initrd.luks.devices."luks-96810d35-b9f1-4c05-bb5e-60cb986b72d5".device = "/dev/disk/by-uuid/96810d35-b9f1-4c05-bb5e-60cb986b72d5";
-
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/E297-979E";
+    { device = "/dev/disk/by-uuid/6D92-AD7C";
       fsType = "vfat";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/d0ffa3f7-d725-4951-9f86-6f33cc7e4b35"; }
+    [ { device = "/dev/disk/by-uuid/4b07487b-cc0c-4301-a7c4-2cdacf791d68"; }
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
